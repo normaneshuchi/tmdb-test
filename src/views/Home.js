@@ -10,7 +10,8 @@ class HomePage extends Component {
     render() { 
         return ( 
             <div className="home">
-                <h3>You are home</h3>
+                <h3>Movie Search</h3>
+                <h5>A simple search app. Type in your favorite movies and get all the information you need on it</h5>
                 <Searchbar/>
                 <Movies />
             </div>

@@ -6,14 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store/store'
 import axios from 'axios';
-import { Config } from './config';
+
+require('dotenv').config()
 
 // axios.defaults.baseURL = Config.api_url;
 axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 axios.interceptors.request.use(request => {
-    request.params = {...request.params, api_key: Config.api_key}
+    request.params = {...request.params, api_key: process.env.REACT_APP_API_KEY}
     return request;
 }, error => {
     console.log(error);
