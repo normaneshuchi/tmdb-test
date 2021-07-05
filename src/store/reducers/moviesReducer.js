@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_SUGGESTIONS, UPDATE_STATUS } from "../types";
+import { GET_MOVIES, UPDATE_STATUS } from "../types";
 
 const initialState = {
     movies: [],

@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { getSuggestions, getMovies } from "../../store/actions/suggestionsActions";
+import { getSuggestions, getMovies, hideSuggestions } from "../../store/actions/suggestionsActions";
 
 class suggestions extends Component {
-    getMovies(term) {
-        console.log(term)
+    getMovies(title) {
+        this.props.hideSuggestions(true)
+        this.props.getMovies(title);
     }
 
     render() {
         const { suggestions } = this.props.suggestions;
-        console.log(suggestions);
-
-
         return (
             <div>
                 {suggestions.map(s =>
                     <React.Fragment key={s.id}>
-                        <p onClick={getMovies(s.original_title)}>{s.original_title}</p>
+                        <p onClick={() => this.getMovies(s.original_title)}>{s.original_title}</p>
                     </React.Fragment>
                 )}
             </div>
@@ -27,4 +25,4 @@ class suggestions extends Component {
 
 const mapStateToProps = (state) => ({ suggestions: state.suggestions })
 
-export default connect(mapStateToProps, { getSuggestions, getMovies })(suggestions)
+export default connect(mapStateToProps, { getSuggestions, getMovies, hideSuggestions })(suggestions)

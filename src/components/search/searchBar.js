@@ -8,17 +8,17 @@ class searchbar extends Component {
 
     fetchSuggestions(e) {
         const term = e.target.value
-        this.props.hideSuggestion(true)
+        this.hideSuggestion(false)
         this.props.getSuggestions(term)
     }
 
-    hideSuggestion() {
-        this.props.hideSuggestions();
+    hideSuggestion(val) {
+        this.props.hideSuggestions(val);
     }
 
     fetchMovies(e) {
         e.preventDefault();
-        this.hideSuggestion(false)
+        this.hideSuggestion(true)
         const input = document.querySelector("#header-search");
         const term = input.value
         console.log(`: ${term}`);
@@ -37,12 +37,13 @@ class searchbar extends Component {
                         onChange={(e) => this.fetchSuggestions(e)}
                     />
                     <button className="search-btn" onClick={(e) => this.fetchMovies(e)} type="submit">Search</button>
+                    <div className="suggestions">
+                        {visible ? (
+                            <Suggestions />
+                        ) : (<div></div>)}
+                    </div>
                 </form>
-                <div className="suggestions">
-                    {visible ? (
-                        <Suggestions />
-                    ): (<div></div>)}
-                </div>
+
             </div>);
     }
 }
