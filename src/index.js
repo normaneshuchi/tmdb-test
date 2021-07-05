@@ -3,10 +3,36 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import store from './store/store'
+import axios from 'axios';
+import { Config } from './config';
+
+// axios.defaults.baseURL = Config.api_url;
+axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+axios.interceptors.request.use(request => {
+    request.params = {...request.params, api_key: Config.api_key}
+    return request;
+}, error => {
+    console.log(error);
+    return Promise.reject(error);
+});
+
+axios.interceptors.response.use(response => {
+    console.log(response);
+    return response;
+}, error => {
+    console.log(error);
+    return Promise.reject(error);
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
