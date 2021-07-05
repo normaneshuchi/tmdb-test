@@ -1,37 +1,52 @@
-import  Suggestions  from "./results";
+import Suggestions from "./results";
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getSuggestions } from "../../store/actions/suggestionsActions";
-
-
+import { getSuggestions, getMovies, hideSuggestions } from "../../store/actions/suggestionsActions";
 class searchbar extends Component {
+
+
+
     fetchSuggestions(e) {
         const term = e.target.value
+        this.props.hideSuggestion(true)
         this.props.getSuggestions(term)
     }
+
+    hideSuggestion() {
+        this.props.hideSuggestions();
+    }
+
+    fetchMovies(e) {
+        e.preventDefault();
+        this.hideSuggestion(false)
+        const input = document.querySelector("#header-search");
+        const term = input.value
+        console.log(`: ${term}`);
+        this.props.getMovies(term)
+    }
     render() {
+        const { visible } = this.props.suggestions;
         return (
-            <div>
+            <div className="search">
                 <form action="/" method="get">
-                    <label htmlFor="header-search">
-                        <span className="visually-hidden">Search</span>
-                    </label>
                     <input
                         type="text"
                         id="header-search"
                         placeholder="Search for movies"
-                        name="s"
+                        name="search"
                         onChange={(e) => this.fetchSuggestions(e)}
                     />
-                    <button type="submit">Search</button>
+                    <button className="search-btn" onClick={(e) => this.fetchMovies(e)} type="submit">Search</button>
                 </form>
-                <div>
-                 <Suggestions />
+                <div className="suggestions">
+                    {visible ? (
+                        <Suggestions />
+                    ): (<div></div>)}
                 </div>
             </div>);
     }
 }
 
-const mapStateToProps  = (state) => ({suggestions:state.suggestions})
+const mapStateToProps = (state) => ({ suggestions: state.suggestions, searchHandled: state.searchHandled })
 
-export default connect(mapStateToProps, {getSuggestions})(searchbar)
+export default connect(mapStateToProps, { getSuggestions, hideSuggestions, getMovies })(searchbar)
